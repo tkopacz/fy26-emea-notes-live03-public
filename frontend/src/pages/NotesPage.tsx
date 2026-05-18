@@ -63,8 +63,10 @@ export default function NotesPage() {
 
   return (
     <div className={styles.page}>
+      {/* Microsoft-style command bar header */}
       <header className={styles.header}>
-        <h1 className={styles.title}>📝 Note-Taker</h1>
+        <div className={styles.headerIcon} aria-hidden="true">📝</div>
+        <h1 className={styles.title}>Note-Taker</h1>
         <p className={styles.subtitle}>Your private, timestamped note feed</p>
       </header>
 
@@ -84,14 +86,20 @@ export default function NotesPage() {
 
             {error && !isInvalidGuid && (
               <div className={styles.errorBox} role="alert">
-                <strong>Error loading notes:</strong> {error}
+                <strong>Error loading notes:</strong>
+                <p>{error}</p>
               </div>
             )}
 
             {isLoading ? (
               <p className={styles.status}>Loading notes…</p>
             ) : (
-              <NoteList notes={notes} onUseAsBasis={handleUseAsBasis} />
+              <>
+                {notes.length > 0 && (
+                  <p className={styles.sectionLabel}>Recent notes</p>
+                )}
+                <NoteList notes={notes} onUseAsBasis={handleUseAsBasis} />
+              </>
             )}
           </>
         )}

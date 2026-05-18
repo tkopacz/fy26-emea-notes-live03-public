@@ -17,6 +17,7 @@ export default function NoteList({ notes, onUseAsBasis }: NoteListProps) {
   if (notes.length === 0) {
     return (
       <div className={styles.emptyState}>
+        <span className={styles.emptyStateIcon} aria-hidden="true">🗒️</span>
         <p>No notes yet — write your first one above!</p>
       </div>
     );

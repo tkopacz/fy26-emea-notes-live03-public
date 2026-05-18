@@ -1,67 +1,111 @@
+/* --------------------------------------------------------
+   NoteInput — Fluent Design text field + primary button
+   -------------------------------------------------------- */
+
+/* Card panel wrapping the input area */
 .container {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   padding: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-card);
 }
 
+/* Label row above the textarea (Fluent TextField label style) */
+.label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 0.375rem;
+}
+
+/* Fluent TextField — underline appears on focus (Windows 11 convention) */
 .textarea {
   width: 100%;
   box-sizing: border-box;
   resize: vertical;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  padding: 0.75rem;
-  font-size: 1rem;
+  /* Fluent uses a bottom border to indicate focusable input */
+  border: 1px solid var(--color-border-hover);
+  border-bottom: 2px solid var(--color-border-hover);
+  border-radius: var(--radius-md);
+  padding: 0.625rem 0.75rem;
+  font-size: 0.9375rem;
   font-family: inherit;
   line-height: 1.5;
   background-color: var(--color-bg);
   color: var(--color-text);
-  transition: border-color 0.15s;
+  transition: border-color 0.1s;
+}
+
+.textarea::placeholder {
+  color: var(--color-placeholder);
+}
+
+.textarea:hover:not(:disabled) {
+  border-color: var(--color-text);
 }
 
 .textarea:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  /* Fluent: thicker bottom border on focus */
+  border-bottom-color: var(--color-primary);
+  border-bottom-width: 2px;
+  background-color: var(--color-surface);
 }
 
 .textarea:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  background-color: var(--color-border);
 }
 
+/* Footer row: error message + save button */
 .footer {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 1rem;
+  gap: 0.75rem;
   margin-top: 0.75rem;
 }
 
+/* Inline error text (Fluent red) */
 .saveError {
-  color: #a11;
-  font-size: 0.875rem;
+  color: var(--color-error-text);
+  font-size: 0.8125rem;
+  flex: 1;
 }
 
+/* Fluent Primary Button */
 .saveButton {
   background-color: var(--color-primary);
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 0.5rem 1.25rem;
-  font-size: 0.9375rem;
+  color: #ffffff;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: 0.4375rem 1.25rem;
+  font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.15s, opacity 0.15s;
+  transition: background-color 0.1s, border-color 0.1s;
+  min-width: 72px;
+  text-align: center;
 }
 
 .saveButton:hover:not(:disabled) {
   background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+.saveButton:active:not(:disabled) {
+  background-color: var(--color-primary-pressed);
+  border-color: var(--color-primary-pressed);
 }
 
 .saveButton:disabled {
-  opacity: 0.45;
+  background-color: var(--color-border);
+  border-color: var(--color-border);
+  color: var(--color-placeholder);
   cursor: not-allowed;
 }
