@@ -1,50 +1,102 @@
+/* --------------------------------------------------------
+   NotesPage — Microsoft Fluent Design layout
+   -------------------------------------------------------- */
 .page {
   min-height: 100vh;
   background-color: var(--color-bg);
   color: var(--color-text);
+  display: flex;
+  flex-direction: column;
 }
 
+/* Microsoft-style command bar / app header */
 .header {
-  background-color: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
-  padding: 1.25rem 1.5rem;
-  text-align: center;
+  background-color: var(--color-primary);
+  padding: 0 1.5rem;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  /* Subtle bottom shadow for depth (Fluent elevation) */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.14);
+  flex-shrink: 0;
 }
 
+/* App icon circle — mimics Fluent app launcher icons */
+.headerIcon {
+  width: 28px;
+  height: 28px;
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* Primary app title — white on blue bar (Microsoft command bar convention) */
 .title {
   margin: 0;
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--color-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.01em;
 }
 
+/* Subtitle / breadcrumb text inside the header */
 .subtitle {
-  margin: 0.25rem 0 0;
-  font-size: 0.875rem;
-  color: var(--color-muted);
+  margin: 0 0 0 0.5rem;
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.75);
+  border-left: 1px solid rgba(255, 255, 255, 0.4);
+  padding-left: 0.75rem;
 }
 
+/* Content section below the header */
 .main {
-  max-width: 720px;
+  max-width: 760px;
+  width: 100%;
   margin: 0 auto;
-  padding: 1.5rem 1rem;
+  padding: 1.5rem 1.25rem;
+  flex: 1;
+}
+
+/* Section label above note list — Fluent "pivot" style */
+.sectionLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-primary);
+  display: block;
+  width: 100%;
 }
 
 .status {
   text-align: center;
   color: var(--color-muted);
   margin-top: 2rem;
+  font-size: 0.875rem;
 }
 
+/* Fluent MessageBar error style */
 .errorBox {
-  background-color: #fff0f0;
-  border: 1px solid #f5c6c6;
-  border-radius: 8px;
-  padding: 1rem 1.25rem;
-  margin-bottom: 1.5rem;
-  color: #a11;
+  background-color: var(--color-error-bg);
+  border-left: 3px solid var(--color-error-border);
+  border-radius: var(--radius-md);
+  padding: 0.875rem 1rem;
+  margin-bottom: 1.25rem;
+  color: var(--color-error-text);
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  font-size: 0.875rem;
 }
 
 .errorBox p {
-  margin: 0.25rem 0 0;
+  margin: 0.2rem 0 0;
 }

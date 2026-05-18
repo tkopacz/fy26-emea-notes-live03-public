@@ -1,31 +1,41 @@
-/* Locked note — visually distinct from the input area to reinforce immutability. */
+/* --------------------------------------------------------
+   NoteCard — Fluent Design card (read-only note)
+   -------------------------------------------------------- */
+
+/* Fluent card: white surface, subtle shadow, left accent stripe */
 .card {
-  background-color: var(--color-note-bg);
+  background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-left: 4px solid var(--color-primary);
-  border-radius: 8px;
-  padding: 1rem 1.25rem;
+  /* Left colour bar — Microsoft accent convention */
+  border-left: 3px solid var(--color-primary);
+  border-radius: var(--radius-lg);
+  padding: 0.875rem 1rem;
   transition: box-shadow 0.15s;
+  box-shadow: var(--shadow-card);
 }
 
 .card:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-card-hover);
 }
 
+/* Timestamp — Fluent caption style */
 .timestamp {
   display: block;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--color-primary);
-  margin-bottom: 0.5rem;
-  letter-spacing: 0.01em;
+  margin-bottom: 0.375rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
+/* Note body text */
 .content {
   margin: 0 0 0.75rem;
   white-space: pre-wrap;
   word-break: break-word;
   line-height: 1.6;
+  font-size: 0.9375rem;
   color: var(--color-text);
 }
 
@@ -34,19 +44,27 @@
   justify-content: flex-end;
 }
 
+/* Fluent Default (secondary) button — outline style */
 .basisButton {
-  background: none;
-  border: 1px solid var(--color-border);
-  border-radius: 5px;
-  padding: 0.3rem 0.75rem;
+  background-color: transparent;
+  border: 1px solid var(--color-border-hover);
+  border-radius: var(--radius-md);
+  padding: 0.3125rem 0.875rem;
   font-size: 0.8125rem;
-  color: var(--color-muted);
+  font-weight: 400;
+  color: var(--color-text);
   cursor: pointer;
-  transition: border-color 0.15s, color 0.15s, background-color 0.15s;
+  transition: background-color 0.1s, border-color 0.1s;
 }
 
 .basisButton:hover {
+  background-color: var(--color-primary-subtle);
   border-color: var(--color-primary);
   color: var(--color-primary);
-  background-color: rgba(99, 102, 241, 0.05);
+}
+
+.basisButton:active {
+  background-color: var(--color-primary-subtle);
+  border-color: var(--color-primary-pressed);
+  color: var(--color-primary-pressed);
 }

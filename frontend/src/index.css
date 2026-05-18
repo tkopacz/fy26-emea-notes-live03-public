@@ -1,19 +1,48 @@
 /* --------------------------------------------------------
-   Design tokens — adjust here to retheme the entire app.
+   Microsoft Fluent Design tokens — adjust here to retheme the entire app.
+   Palette based on Microsoft's Fluent UI / Windows 11 design system.
    -------------------------------------------------------- */
 :root {
-  --color-primary: #6366f1;        /* Indigo */
-  --color-primary-hover: #4f46e5;
-  --color-bg: #f8f9fa;
-  --color-surface: #ffffff;
-  --color-note-bg: #fafbff;        /* Subtle tint for locked notes */
-  --color-text: #1a1a2e;
-  --color-muted: #6b7280;
-  --color-border: #e5e7eb;
+  /* Microsoft blue accent (Windows / Office 365 primary) */
+  --color-primary: #0078d4;
+  --color-primary-hover: #106ebe;
+  --color-primary-pressed: #005a9e;
+  --color-primary-subtle: #deecf9;   /* Light blue tint for hover backgrounds */
 
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  font-size: 16px;
+  /* Neutral surfaces (Fluent neutral palette) */
+  --color-bg: #f3f2f1;              /* Neutral grey page background */
+  --color-surface: #ffffff;
+  --color-surface-alt: #faf9f8;     /* Alternate surface (e.g., note cards) */
+  --color-note-bg: #faf9f8;
+
+  /* Text (Fluent neutral text hierarchy) */
+  --color-text: #323130;            /* Primary text */
+  --color-muted: #605e5c;           /* Secondary / caption text */
+  --color-placeholder: #a19f9d;     /* Placeholder text */
+
+  /* Borders & dividers */
+  --color-border: #edebe9;
+  --color-border-hover: #8a8886;
+
+  /* Status colours */
+  --color-error-bg: #fde7e9;
+  --color-error-border: #a80000;
+  --color-error-text: #a4262c;
+
+  /* Elevation / shadow (Fluent depth tokens) */
+  --shadow-card: 0 1.6px 3.6px rgba(0, 0, 0, 0.13), 0 0.3px 0.9px rgba(0, 0, 0, 0.11);
+  --shadow-card-hover: 0 6.4px 14.4px rgba(0, 0, 0, 0.13), 0 1.2px 3.6px rgba(0, 0, 0, 0.11);
+  --shadow-panel: 0 3.2px 7.2px rgba(0, 0, 0, 0.13), 0 0.6px 1.8px rgba(0, 0, 0, 0.11);
+
+  /* Fluent border-radius tokens */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+
+  /* Typography — Segoe UI is the standard Microsoft font */
+  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont,
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
@@ -39,11 +68,17 @@ button {
   font-family: inherit;
 }
 
+/* Fluent-style focus ring — visible keyboard accessibility indicator */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
 /* --------------------------------------------------------
    Responsive utilities
    -------------------------------------------------------- */
 @media (max-width: 480px) {
   :root {
-    font-size: 15px;
+    font-size: 13px;
   }
 }

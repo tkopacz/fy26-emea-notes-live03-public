@@ -64,13 +64,16 @@ export default function NoteInput({ initialContent, onContentConsumed, onSave }:
 
   return (
     <section className={styles.container} aria-label="New note">
+      {/* Fluent TextField label */}
+      <label className={styles.label} htmlFor="note-textarea">New note</label>
       <textarea
+        id="note-textarea"
         ref={textareaRef}
         className={styles.textarea}
         value={content}
         onChange={(e) => setContent(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="Write a new note… (Ctrl+Enter to save)"
+        placeholder="Write your note here… (Ctrl+Enter to save)"
         rows={4}
         disabled={isSaving}
         autoFocus
