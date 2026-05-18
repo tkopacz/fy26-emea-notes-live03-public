@@ -1,24 +1,24 @@
-/* Locked note — visually distinct from the input area to reinforce immutability. */
+/* GitHub-style note card — uses Primer box/card pattern */
 .card {
-  background-color: var(--color-note-bg);
+  background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-left: 4px solid var(--color-primary);
-  border-radius: 8px;
+  border-radius: 6px;
   padding: 1rem 1.25rem;
-  transition: box-shadow 0.15s;
+  transition: box-shadow 0.12s ease;
 }
 
 .card:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(31, 35, 40, 0.12), 0 8px 24px rgba(66, 74, 83, 0.12);
 }
 
+/* Timestamp styled like a GitHub commit/event timestamp */
 .timestamp {
   display: block;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  color: var(--color-primary);
+  color: var(--color-muted);
   margin-bottom: 0.5rem;
-  letter-spacing: 0.01em;
+  letter-spacing: 0;
 }
 
 .content {
@@ -27,6 +27,7 @@
   word-break: break-word;
   line-height: 1.6;
   color: var(--color-text);
+  font-size: 0.875rem;
 }
 
 .footer {
@@ -34,19 +35,21 @@
   justify-content: flex-end;
 }
 
+/* GitHub secondary "small" button style */
 .basisButton {
-  background: none;
+  background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 5px;
-  padding: 0.3rem 0.75rem;
-  font-size: 0.8125rem;
-  color: var(--color-muted);
+  border-radius: 6px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text);
   cursor: pointer;
-  transition: border-color 0.15s, color 0.15s, background-color 0.15s;
+  line-height: 20px;
+  transition: background-color 0.08s ease, border-color 0.08s ease;
 }
 
 .basisButton:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-  background-color: rgba(99, 102, 241, 0.05);
+  background-color: #f3f4f6;
+  border-color: #b0b7be;
 }

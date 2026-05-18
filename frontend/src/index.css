@@ -1,19 +1,26 @@
 /* --------------------------------------------------------
-   Design tokens — adjust here to retheme the entire app.
+   Design tokens — GitHub Primer style
    -------------------------------------------------------- */
 :root {
-  --color-primary: #6366f1;        /* Indigo */
-  --color-primary-hover: #4f46e5;
-  --color-bg: #f8f9fa;
+  --color-primary: #0969da;          /* GitHub blue */
+  --color-primary-hover: #0860ca;
+  --color-btn-primary: #1a7f37;      /* GitHub green action button */
+  --color-btn-primary-hover: #1c6e31;
+  --color-bg: #f6f8fa;               /* GitHub canvas default */
   --color-surface: #ffffff;
-  --color-note-bg: #fafbff;        /* Subtle tint for locked notes */
-  --color-text: #1a1a2e;
-  --color-muted: #6b7280;
-  --color-border: #e5e7eb;
+  --color-note-bg: #f6f8fa;
+  --color-text: #1f2328;             /* GitHub fg default */
+  --color-muted: #656d76;            /* GitHub fg muted */
+  --color-border: #d0d7de;           /* GitHub border default */
+  --color-header-bg: #24292f;        /* GitHub header dark */
+  --color-header-text: #f0f6fc;
+  --color-danger: #cf222e;           /* GitHub danger */
+  --color-danger-subtle: #ffebe9;
+  --color-danger-muted: #ff818266;
 
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+    Helvetica, Arial, sans-serif;
+  font-size: 14px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
