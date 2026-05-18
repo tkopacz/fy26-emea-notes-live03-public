@@ -1,0 +1,60 @@
+.app-shell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.note-card {
+  width: min(100%, 40rem);
+  padding: 2.5rem;
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  text-align: left;
+}
+
+.eyebrow {
+  margin-bottom: 0.75rem;
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.description,
+.hint {
+  color: var(--text);
+}
+
+.note-id-block {
+  display: grid;
+  gap: 0.5rem;
+  margin: 2rem 0 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.note-id-block code {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    padding: 16px;
+  }
+
+  .note-card {
+    padding: 1.5rem;
+  }
+}
