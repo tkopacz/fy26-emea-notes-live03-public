@@ -2,9 +2,7 @@ import './App.css'
 import { getNoteId } from './notePath.js'
 
 function App({ notePath }) {
-  const currentPath =
-    typeof window === 'undefined' ? notePath : window.location.pathname
-  const noteId = getNoteId(currentPath)
+  const noteId = getNoteId(notePath)
 
   return (
     <main className="app-shell">
@@ -17,7 +15,7 @@ function App({ notePath }) {
         </p>
         <div className="note-id-block">
           <span className="label">Current URL path</span>
-          <code>{currentPath}</code>
+          <code>{notePath}</code>
           <span className="label">Current URL identifier</span>
           <code>{noteId}</code>
         </div>
