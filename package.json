@@ -1,0 +1,15 @@
+{
+  "name": "note-taker-app",
+  "version": "1.0.0",
+  "description": "Full-stack Note-Taker App — ASP.NET Core API + React frontend",
+  "private": true,
+  "scripts": {
+    "start": "concurrently --names \"API,UI\" --prefix-colors \"cyan,magenta\" \"npm run start:api\" \"npm run start:ui\"",
+    "start:api": "dotnet run --project backend/NoteTaker.Api/NoteTaker.Api.csproj --launch-profile http",
+    "start:ui": "npm --prefix frontend run dev",
+    "test": "dotnet test backend/NoteTaker.Tests/NoteTaker.Tests.csproj --logger console"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

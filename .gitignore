@@ -1,0 +1,17 @@
+# Notes data (local file storage — not committed to git)
+data/
+
+# .NET build outputs
+backend/**/bin/
+backend/**/obj/
+
+# Node / npm
+node_modules/
+frontend/node_modules/
+
+# Vite dist
+frontend/dist/
+
+# OS
+.DS_Store
+Thumbs.db

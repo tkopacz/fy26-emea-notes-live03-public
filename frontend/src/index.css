@@ -1,0 +1,49 @@
+/* --------------------------------------------------------
+   Design tokens — adjust here to retheme the entire app.
+   -------------------------------------------------------- */
+:root {
+  --color-primary: #6366f1;        /* Indigo */
+  --color-primary-hover: #4f46e5;
+  --color-bg: #f8f9fa;
+  --color-surface: #ffffff;
+  --color-note-bg: #fafbff;        /* Subtle tint for locked notes */
+  --color-text: #1a1a2e;
+  --color-muted: #6b7280;
+  --color-border: #e5e7eb;
+
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --------------------------------------------------------
+   Reset
+   -------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+h1, h2, h3 {
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* --------------------------------------------------------
+   Responsive utilities
+   -------------------------------------------------------- */
+@media (max-width: 480px) {
+  :root {
+    font-size: 15px;
+  }
+}
