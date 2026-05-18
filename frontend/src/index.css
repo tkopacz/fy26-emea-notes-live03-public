@@ -6,6 +6,7 @@
   --color-primary-hover: #0860ca;
   --color-btn-primary: #1a7f37;      /* GitHub green action button */
   --color-btn-primary-hover: #1c6e31;
+  --color-btn-primary-disabled: #94d3a2;  /* Muted green for disabled state */
   --color-bg: #f6f8fa;               /* GitHub canvas default */
   --color-surface: #ffffff;
   --color-note-bg: #f6f8fa;
@@ -13,6 +14,7 @@
   --color-muted: #656d76;            /* GitHub fg muted */
   --color-border: #d0d7de;           /* GitHub border default */
   --color-header-bg: #24292f;        /* GitHub header dark */
+  --color-header-border: #30363d;    /* GitHub header border */
   --color-header-text: #f0f6fc;
   --color-danger: #cf222e;           /* GitHub danger */
   --color-danger-subtle: #ffebe9;
