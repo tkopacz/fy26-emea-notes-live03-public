@@ -6,6 +6,18 @@ import NoteInput from '../components/NoteInput';
 import NoteList from '../components/NoteList';
 import styles from './NotesPage.module.css';
 
+interface NotesLoadState {
+  guid: string | undefined;
+  notes: Note[];
+  error: string | null;
+  status: 'idle' | 'loading' | 'ready' | 'error';
+}
+
+interface BasisDraftState {
+  content: string;
+  version: number;
+}
+
 /**
  * NotesPage is the main view for a user's private note feed.
  *
@@ -17,24 +29,55 @@ import styles from './NotesPage.module.css';
 export default function NotesPage() {
   const { guid } = useParams<{ guid: string }>();
 
-  const [notes, setNotes] = useState<Note[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  // Text pre-filled by the "Use as basis" action on any existing note.
-  const [prefillContent, setPrefillContent] = useState('');
+  const [loadState, setLoadState] = useState<NotesLoadState>({
+    guid,
+    notes: [],
+    error: null,
+    status: guid ? 'loading' : 'idle',
+  });
+  // Keep a version number so clicking the same note again still refreshes the input.
+  const [basisDraft, setBasisDraft] = useState<BasisDraftState>({
+    content: '',
+    version: 0,
+  });
 
   // Load notes whenever the GUID changes (e.g., direct navigation).
   useEffect(() => {
     if (!guid) return;
 
-    setIsLoading(true);
-    setError(null);
+    let isCancelled = false;
 
     getNotes(guid)
-      .then(setNotes)
-      .catch((err: Error) => setError(err.message))
-      .finally(() => setIsLoading(false));
+      .then((notes) => {
+        if (isCancelled) return;
+
+        setLoadState({
+          guid,
+          notes,
+          error: null,
+          status: 'ready',
+        });
+      })
+      .catch((err: Error) => {
+        if (isCancelled) return;
+
+        setLoadState({
+          guid,
+          notes: [],
+          error: err.message,
+          status: 'error',
+        });
+      });
+
+    return () => {
+      isCancelled = true;
+    };
   }, [guid]);
+
+  const isCurrentGuid = loadState.guid === guid;
+  const notes = isCurrentGuid ? loadState.notes : [];
+  const error = isCurrentGuid ? loadState.error : null;
+  const isLoading = Boolean(guid) && (!isCurrentGuid || loadState.status === 'loading');
 
   /**
    * Saves a new note and prepends it to the local list without a full refetch,
@@ -45,7 +88,18 @@ export default function NotesPage() {
 
     const created = await createNote(guid, { content });
     // Prepend so the newest note is always at the top.
-    setNotes((prev) => [created, ...prev]);
+    setLoadState((prev) => {
+      if (prev.guid !== guid) {
+        return prev;
+      }
+
+      return {
+        guid,
+        notes: [created, ...prev.notes],
+        error: null,
+        status: 'ready',
+      };
+    });
   }
 
   /**
@@ -53,7 +107,10 @@ export default function NotesPage() {
    * Called by the "Use as basis" button on each NoteCard.
    */
   function handleUseAsBasis(content: string): void {
-    setPrefillContent(content);
+    setBasisDraft((prev) => ({
+      content,
+      version: prev.version + 1,
+    }));
     // Scroll to the top so the user sees the populated input.
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -77,8 +134,8 @@ export default function NotesPage() {
         ) : (
           <>
             <NoteInput
-              initialContent={prefillContent}
-              onContentConsumed={() => setPrefillContent('')}
+              key={basisDraft.version}
+              initialContent={basisDraft.content}
               onSave={handleSave}
             />
 

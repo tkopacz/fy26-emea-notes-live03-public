@@ -1,11 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import styles from './NoteInput.module.css';
 
 interface NoteInputProps {
   /** Content to pre-fill the textarea (from "Use as basis" action). */
   initialContent: string;
-  /** Called after the pre-fill content has been consumed so the parent can clear it. */
-  onContentConsumed: () => void;
   /**
    * Called when the user clicks "Save".
    * Returns a Promise so the component can show a saving state.
@@ -19,22 +17,15 @@ interface NoteInputProps {
  * - Textarea is auto-focused on mount.
  * - Save button is disabled until the user types at least one non-whitespace character.
  * - Clears the textarea and re-focuses after a successful save.
- * - Accepts pre-filled content via the `initialContent` prop (from "Use as basis").
+ * - Accepts pre-filled content via the `initialContent` prop when the parent
+ *   gives us a fresh instance after "Use as basis" is clicked.
  */
-export default function NoteInput({ initialContent, onContentConsumed, onSave }: NoteInputProps) {
-  const [content, setContent] = useState('');
+export default function NoteInput({ initialContent, onSave }: NoteInputProps) {
+  // Start with the basis note text when this input is freshly mounted.
+  const [content, setContent] = useState(initialContent);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  // When the parent passes new pre-fill content, populate the textarea.
-  useEffect(() => {
-    if (initialContent) {
-      setContent(initialContent);
-      onContentConsumed();
-      textareaRef.current?.focus();
-    }
-  }, [initialContent, onContentConsumed]);
 
   const canSave = content.trim().length > 0 && !isSaving;
 
