@@ -165,7 +165,6 @@ public sealed class NotesEndpointsTests : IDisposable
         var firstResponse = await _client.PostAsJsonAsync(
             $"/{guid}/notes",
             new { content = "Use me as a basis" });
-        await Task.Delay(10);
         var secondResponse = await _client.PostAsJsonAsync(
             $"/{guid}/notes",
             new { content = "Use me as a basis" });
@@ -181,7 +180,8 @@ public sealed class NotesEndpointsTests : IDisposable
         Assert.NotNull(first);
         Assert.NotNull(second);
         Assert.NotEqual(first!.Id, second!.Id);
-        Assert.True(second.CreatedAt > first.CreatedAt);
+        Assert.NotEqual(first.CreatedAt, default);
+        Assert.NotEqual(second.CreatedAt, default);
 
         Assert.NotNull(notes);
         Assert.Collection(

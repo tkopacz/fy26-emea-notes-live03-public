@@ -74,9 +74,10 @@ export default function NotesPage() {
     };
   }, [guid]);
 
-  const notes = loadState.guid === guid ? loadState.notes : [];
-  const error = loadState.guid === guid ? loadState.error : null;
-  const isLoading = Boolean(guid) && (loadState.guid !== guid || loadState.status === 'loading');
+  const isCurrentGuid = loadState.guid === guid;
+  const notes = isCurrentGuid ? loadState.notes : [];
+  const error = isCurrentGuid ? loadState.error : null;
+  const isLoading = Boolean(guid) && (!isCurrentGuid || loadState.status === 'loading');
 
   /**
    * Saves a new note and prepends it to the local list without a full refetch,
