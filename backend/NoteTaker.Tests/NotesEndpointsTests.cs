@@ -156,4 +156,45 @@ public sealed class NotesEndpointsTests : IDisposable
         Assert.Single(notes!);
         Assert.Equal("Persistent note", notes[0].GetProperty("content").GetString());
     }
+
+    [Fact]
+    public async Task CreateNote_SameContentTwice_KeepsBothNotes()
+    {
+        var guid = Guid.NewGuid();
+
+        var firstResponse = await _client.PostAsJsonAsync(
+            $"/{guid}/notes",
+            new { content = "Use me as a basis" });
+        await Task.Delay(10);
+        var secondResponse = await _client.PostAsJsonAsync(
+            $"/{guid}/notes",
+            new { content = "Use me as a basis" });
+
+        var first = await firstResponse.Content.ReadFromJsonAsync<Note>();
+        var second = await secondResponse.Content.ReadFromJsonAsync<Note>();
+
+        var response = await _client.GetAsync($"/{guid}/notes");
+        var notes = await response.Content.ReadFromJsonAsync<List<Note>>();
+
+        Assert.Equal(HttpStatusCode.Created, firstResponse.StatusCode);
+        Assert.Equal(HttpStatusCode.Created, secondResponse.StatusCode);
+        Assert.NotNull(first);
+        Assert.NotNull(second);
+        Assert.NotEqual(first!.Id, second!.Id);
+        Assert.True(second.CreatedAt > first.CreatedAt);
+
+        Assert.NotNull(notes);
+        Assert.Collection(
+            notes!,
+            newest =>
+            {
+                Assert.Equal(second.Id, newest.Id);
+                Assert.Equal("Use me as a basis", newest.Content);
+            },
+            oldest =>
+            {
+                Assert.Equal(first.Id, oldest.Id);
+                Assert.Equal("Use me as a basis", oldest.Content);
+            });
+    }
 }
