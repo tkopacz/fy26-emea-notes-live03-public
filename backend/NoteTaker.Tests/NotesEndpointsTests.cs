@@ -86,6 +86,28 @@ public sealed class NotesEndpointsTests : IDisposable
         Assert.Equal("First", notes[1].GetProperty("content").GetString());
     }
 
+    [Fact]
+    public async Task GetNotes_SameTimestamp_ReturnsLaterSavedNoteFirst()
+    {
+        var guid = Guid.NewGuid();
+        var createdAt = new DateTimeOffset(2026, 01, 02, 03, 04, 05, TimeSpan.Zero);
+        var path = Path.Combine(_tempDir, $"{guid}.json");
+        var seededNotes = new[]
+        {
+            new Note("first-id", "First", createdAt),
+            new Note("second-id", "Second", createdAt)
+        };
+
+        await File.WriteAllTextAsync(path, JsonSerializer.Serialize(seededNotes));
+
+        var response = await _client.GetAsync($"/{guid}/notes");
+        var notes = await response.Content.ReadFromJsonAsync<List<Note>>();
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.NotNull(notes);
+        Assert.Equal(["second-id", "first-id"], notes!.Select(note => note.Id));
+    }
+
     // ---------- POST /{guid}/notes ----------
 
     [Fact]
