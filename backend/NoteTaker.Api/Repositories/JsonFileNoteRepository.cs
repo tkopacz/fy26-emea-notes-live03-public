@@ -57,8 +57,13 @@ public sealed class JsonFileNoteRepository : INoteRepository
         {
             var json = await File.ReadAllTextAsync(path, cancellationToken);
             var notes = JsonSerializer.Deserialize<List<Note>>(json, _jsonOptions) ?? [];
-            // Sort descending so the newest note is first.
-            return notes.OrderByDescending(n => n.CreatedAt).ToList().AsReadOnly();
+            return notes
+                .Select((note, index) => new { Note = note, Index = index })
+                .OrderByDescending(item => item.Note.CreatedAt)
+                .ThenByDescending(item => item.Index)
+                .Select(item => item.Note)
+                .ToList()
+                .AsReadOnly();
         }
         finally
         {
