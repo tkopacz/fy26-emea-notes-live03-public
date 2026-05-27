@@ -156,4 +156,52 @@ public sealed class NotesEndpointsTests : IDisposable
         Assert.Single(notes!);
         Assert.Equal("Persistent note", notes[0].GetProperty("content").GetString());
     }
+
+    // ---------- NT-005: Notes are permanently read-only ----------
+
+    [Fact]
+    public async Task PutNotes_Returns405MethodNotAllowed()
+    {
+        // No PUT endpoint exists — notes are immutable once saved.
+        var guid = Guid.NewGuid();
+
+        var response = await _client.PutAsJsonAsync($"/{guid}/notes", new { content = "Updated" });
+
+        Assert.Equal(HttpStatusCode.MethodNotAllowed, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task DeleteNotes_Returns405MethodNotAllowed()
+    {
+        // No DELETE endpoint exists — notes cannot be deleted.
+        var guid = Guid.NewGuid();
+
+        var response = await _client.DeleteAsync($"/{guid}/notes");
+
+        Assert.Equal(HttpStatusCode.MethodNotAllowed, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task PutNoteById_Returns404NotFound()
+    {
+        // No route exists for updating an individual note.
+        var guid = Guid.NewGuid();
+        var noteId = Guid.NewGuid();
+
+        var response = await _client.PutAsJsonAsync($"/{guid}/notes/{noteId}", new { content = "Updated" });
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task DeleteNoteById_Returns404NotFound()
+    {
+        // No route exists for deleting an individual note.
+        var guid = Guid.NewGuid();
+        var noteId = Guid.NewGuid();
+
+        var response = await _client.DeleteAsync($"/{guid}/notes/{noteId}");
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
 }
