@@ -26,9 +26,12 @@ export default function NoteCard({ note, onUseAsBasis }: NoteCardProps) {
 
   return (
     <article className={styles.card} aria-label={`Note from ${formattedDate}`}>
-      <time className={styles.timestamp} dateTime={note.createdAt}>
-        {formattedDate}
-      </time>
+      <header className={styles.header}>
+        <time className={styles.timestamp} dateTime={note.createdAt}>
+          {formattedDate}
+        </time>
+        <span className={styles.lockedBadge} aria-label="Read-only note">🔒 Saved</span>
+      </header>
 
       {/* Pre-wrap preserves line breaks in the note content. */}
       <p className={styles.content}>{note.content}</p>
