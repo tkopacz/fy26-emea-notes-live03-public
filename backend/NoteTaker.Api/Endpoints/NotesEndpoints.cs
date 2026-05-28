@@ -81,6 +81,12 @@ public static class NotesEndpoints
     /// Uses <see cref="Guid.TryParse"/> which accepts any UUID version; the PRD
     /// does not require version-4 enforcement on incoming user GUIDs.
     /// </summary>
+    /// <remarks>
+    /// Gibt <c>false</c> zurück, wenn der Wert leer ist oder kein gültiges UUID-Format hat.
+    /// In diesem Fall antworten die Endpunkte mit HTTP 400 (Bad Request).
+    /// Returns <c>false</c> when the value is empty or does not match a valid UUID format,
+    /// in which case the endpoints respond with HTTP 400 (Bad Request).
+    /// </remarks>
     private static bool IsValidGuid(string value) =>
         Guid.TryParse(value, out var parsed) && parsed != Guid.Empty;
 }

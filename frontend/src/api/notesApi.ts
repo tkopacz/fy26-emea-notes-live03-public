@@ -19,7 +19,13 @@ export async function getNotes(guid: string): Promise<Note[]> {
 
   if (!response.ok) {
     const body = await response.json().catch(() => ({}));
-    throw new Error(body?.detail ?? `Failed to load notes (HTTP ${response.status})`);
+    // Fehlermeldung enthält immer den HTTP-Statuscode, damit die aufrufende Seite
+    // 400-Fehler zuverlässig erkennen kann.
+    // Error message always includes the HTTP status code so callers can reliably
+    // detect 400 responses.
+    throw new Error(
+      `${body?.detail ?? 'Failed to load notes'} (HTTP ${response.status})`,
+    );
   }
 
   return response.json() as Promise<Note[]>;
@@ -42,7 +48,13 @@ export async function createNote(guid: string, request: CreateNoteRequest): Prom
 
   if (!response.ok) {
     const body = await response.json().catch(() => ({}));
-    throw new Error(body?.detail ?? `Failed to save note (HTTP ${response.status})`);
+    // Fehlermeldung enthält immer den HTTP-Statuscode, damit die aufrufende Seite
+    // 400-Fehler zuverlässig erkennen kann.
+    // Error message always includes the HTTP status code so callers can reliably
+    // detect 400 responses.
+    throw new Error(
+      `${body?.detail ?? 'Failed to save note'} (HTTP ${response.status})`,
+    );
   }
 
   return response.json() as Promise<Note>;
