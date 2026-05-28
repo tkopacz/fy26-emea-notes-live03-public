@@ -7,6 +7,16 @@ import NoteList from '../components/NoteList';
 import styles from './NotesPage.module.css';
 
 /**
+ * Regulärer Ausdruck zur Überprüfung, ob ein Zeichenketten-Parameter dem
+ * UUID-Format entspricht (beliebige Version, konsistent mit der Backend-Validierung).
+ *
+ * Regular expression that checks whether a string matches the UUID format
+ * (any version, consistent with backend validation).
+ */
+const UUID_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
  * NotesPage is the main view for a user's private note feed.
  *
  * - Reads the `:guid` route parameter to scope all API calls.
@@ -17,24 +27,32 @@ import styles from './NotesPage.module.css';
 export default function NotesPage() {
   const { guid } = useParams<{ guid: string }>();
 
+  // Ungültige GUIDs werden sofort anhand des URL-Parameters erkannt,
+  // ohne einen unnötigen API-Aufruf auszulösen.
+  // Invalid GUIDs are detected immediately from the URL parameter,
+  // without triggering an unnecessary API call.
+  const guidIsValid = !!guid && UUID_PATTERN.test(guid);
+
   const [notes, setNotes] = useState<Note[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  // Start in loading state only when the GUID is already known to be valid,
+  // avoiding an extra setState call inside the effect for invalid GUIDs.
+  const [isLoading, setIsLoading] = useState(guidIsValid);
   const [error, setError] = useState<string | null>(null);
   // Text pre-filled by the "Use as basis" action on any existing note.
   const [prefillContent, setPrefillContent] = useState('');
 
   // Load notes whenever the GUID changes (e.g., direct navigation).
   useEffect(() => {
-    if (!guid) return;
+    if (!guidIsValid) return;
 
     setIsLoading(true);
     setError(null);
 
-    getNotes(guid)
+    getNotes(guid!)
       .then(setNotes)
       .catch((err: Error) => setError(err.message))
       .finally(() => setIsLoading(false));
-  }, [guid]);
+  }, [guid, guidIsValid]);
 
   /**
    * Saves a new note and prepends it to the local list without a full refetch,
@@ -58,8 +76,12 @@ export default function NotesPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // A 400-style error means the GUID in the URL is malformed.
-  const isInvalidGuid = error?.includes('400') || error?.includes('Invalid GUID');
+  // Ungültige GUID: entweder direkt anhand des URL-Formats erkannt oder durch
+  // einen HTTP-400-Fehler der API bestätigt.
+  // Invalid GUID: detected either directly from the URL format or confirmed by
+  // an HTTP 400 error from the API.
+  const isInvalidGuid =
+    !guidIsValid || error?.includes('400') || error?.includes('Invalid GUID');
 
   return (
     <div className={styles.page}>
