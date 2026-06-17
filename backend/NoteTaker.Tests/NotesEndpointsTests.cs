@@ -107,11 +107,40 @@ public sealed class NotesEndpointsTests : IDisposable
     }
 
     [Fact]
+    public async Task CreateNote_ValidRequest_ReturnsUtcIso8601Timestamp()
+    {
+        var guid = Guid.NewGuid();
+
+        var response = await _client.PostAsJsonAsync(
+            $"/{guid}/notes",
+            new { content = "UTC timestamp check" });
+
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+
+        var payload = await response.Content.ReadFromJsonAsync<JsonElement>();
+        var createdAtRaw = payload.GetProperty("createdAt").GetString();
+
+        Assert.False(string.IsNullOrWhiteSpace(createdAtRaw));
+        Assert.True(DateTimeOffset.TryParse(createdAtRaw, out var parsedTimestamp));
+        Assert.Equal(TimeSpan.Zero, parsedTimestamp.Offset);
+    }
+
+    [Fact]
     public async Task CreateNote_InvalidGuid_Returns400()
     {
         var response = await _client.PostAsJsonAsync(
             "/bad-guid/notes",
             new { content = "Note" });
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task CreateNote_PathTraversalStyleGuid_Returns400()
+    {
+        var response = await _client.PostAsJsonAsync(
+            "/..%2F..%2Fetc%2Fpasswd/notes",
+            new { content = "Blocked" });
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
