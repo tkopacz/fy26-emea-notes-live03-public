@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
+using System.Globalization;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
@@ -121,7 +122,16 @@ public sealed class NotesEndpointsTests : IDisposable
         var createdAtRaw = payload.GetProperty("createdAt").GetString();
 
         Assert.False(string.IsNullOrWhiteSpace(createdAtRaw));
-        Assert.True(DateTimeOffset.TryParse(createdAtRaw, out var parsedTimestamp));
+        Assert.Matches(
+            // .NET JSON serialization may emit UTC as either "Z" or "+00:00".
+            @"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|\+00:00)$",
+            createdAtRaw!);
+        Assert.True(DateTimeOffset.TryParse(
+            createdAtRaw,
+            CultureInfo.InvariantCulture,
+            DateTimeStyles.RoundtripKind,
+            out var parsedTimestamp),
+            "Failed to parse createdAt as a UTC ISO 8601 timestamp.");
         Assert.Equal(TimeSpan.Zero, parsedTimestamp.Offset);
     }
 
