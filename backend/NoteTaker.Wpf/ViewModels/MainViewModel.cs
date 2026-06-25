@@ -143,7 +143,7 @@ public partial class MainViewModel : ObservableObject
     /// </summary>
     /// <param name="sourceNote">The note whose content should be used as a template.</param>
     [RelayCommand]
-    private void UseAsBASIS(Note sourceNote)
+    private void UseAsBasis(Note sourceNote)
     {
         if (sourceNote is not null)
         {

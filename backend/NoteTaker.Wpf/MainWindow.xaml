@@ -139,7 +139,7 @@
                                         <!-- Actions -->
                                         <StackPanel Grid.Row="2" Orientation="Horizontal">
                                             <Button Content="Use as Basis"
-                                                    Command="{Binding DataContext.UseAsBASISCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                    Command="{Binding DataContext.UseAsBasisCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                     CommandParameter="{Binding}"
                                                     Padding="5,2"
                                                     FontSize="11"/>
