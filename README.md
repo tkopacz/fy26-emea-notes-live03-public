@@ -48,13 +48,14 @@ Built as a reference codebase for GitHub Copilot demos.
 git clone https://github.com/<your-org>/fy26-emea-notes-live03-public.git
 cd fy26-emea-notes-live03-public
 
-# 2. Install root dependencies (concurrently)
+# 2. Install dependencies for both applications
 npm install
 
 # 3. Start both backend and frontend with ONE command
 npm start
 ```
 
+- `npm start` labels the backend output as `API` and the React/Vite output as `UI` in the same terminal.
 - **Backend API** → http://localhost:5000  
 - **Frontend** → http://localhost:5173  
 
